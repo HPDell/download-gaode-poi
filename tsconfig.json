@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es2015"
+        ],
+        "target": "es5",
+        "sourceMap": true
+    },
+    "files": [
+        "delay.ts",
+        "model.ts",
+        "download.ts",
+        "index.ts"
+    ]
+}

@@ -1,0 +1,1 @@
+GET http://restapi.amap.com/v3/place/text?key=01c88d59558380c50780a27c4ecbae36&types=010101&city=wuhan&citylimit=true HTTP/1.1
