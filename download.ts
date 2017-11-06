@@ -2,11 +2,11 @@ import * as WebRequest from "web-request";
 import { delay } from "./delay";
 import { GaodePoi, GaodePoiSearchResult, IGaodePoiSearchResultModel } from "./model";
 
-enum GaodePoiOutput {
+export enum GaodePoiOutput {
     JSON, XML
 }
 
-interface IGaodePoiApi {
+export interface IGaodePoiApi {
     keywords: string[];
     types: string[];
     city?: string;
@@ -20,7 +20,7 @@ interface IGaodePoiApi {
     output?: GaodePoiOutput;
 }
 
-class GaodePoiApi {
+export class GaodePoiApi {
     baseurl: string;
     key: string;
     constructor(key: string) {

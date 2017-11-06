@@ -3,7 +3,7 @@ import * as coordtransform from "coordtransform"
 /**
  * 高德POI模型
  */
-interface IGaodePoiModel {
+export interface IGaodePoiModel {
     id: string;
     name: string;
     typecode: string;
@@ -25,7 +25,7 @@ interface IGaodePoiModel {
 /**
  * 高德POI搜索建议
  */
-interface IGaodePoiSearchSuggestionsModel {
+export interface IGaodePoiSearchSuggestionsModel {
     keywords: any[];
     cities: any[];
 }
