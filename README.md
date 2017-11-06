@@ -1,6 +1,6 @@
 # 高德API爬虫——POI（搜索接口）
 利用高德搜索Web API爬取数据。
-> 注意：使用前需要申请高德开发者应用key
+> 注意：使用前需要申请高德开发者应用key。将`gaodeconfig-sample.json`文件重命名为`gaodeconfig.json`文件，并将申请到的 key 填入 json 文件 "key" 字段的值内。
 
 ## 依赖包
 NPM包：
