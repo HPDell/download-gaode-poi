@@ -34,8 +34,4 @@ async function main(outputroot: string, types: Array<{name:string, id: string}>)
     }
 }
 
-main("./results", [
-    { name: "mall", id: "060100" },
-    { name: "shoppingmall", id: "060101" },
-    { name: "commonmall", id: "060102" }
-])
+main("./results", JSON.parse(fs.readFileSync("targets.json").toString()))
