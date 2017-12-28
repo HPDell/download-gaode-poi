@@ -7,9 +7,10 @@ var CONFIG_FILE_PAHT = "gaodeconfig.json"
 
 async function main(outputroot: string, types: Array<{name:string, id: string}>) {
     // 读取ak
-    var config:{key:string} = null
-    if (fs.existsSync(CONFIG_FILE_PAHT) && fs.accessSync(CONFIG_FILE_PAHT)) {
-        config = JSON.parse(fs.readFileSync(CONFIG_FILE_PAHT).toString())
+    try {
+        var config:{key:string} = JSON.parse((await new Promise<Buffer>((resolve, rejection) => {
+            fs.readFile(CONFIG_FILE_PAHT, (err, data) => { if (err) rejection(err); else resolve(data); })
+        })).toString());
         if (config.key && config.key.length > 0) {
             // 爬取数据
             var fields = GaodePoi.getFields();
@@ -29,7 +30,7 @@ async function main(outputroot: string, types: Array<{name:string, id: string}>)
                 })
             }
         }
-    } else {
+    } catch (error) {
         throw "No config file";
     }
 }
