@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "coordtransform": "^2.1.2",
+    "fs-extra": "^6.0.1",
     "json2csv": "^3.11.5",
     "web-request": "^1.0.7"
   },
   "devDependencies": {
+    "@types/fs-extra": "^5.0.4",
     "@types/node": "^10.5.2"
   },
   "scripts": {
