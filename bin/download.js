@@ -14,8 +14,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -67,29 +67,20 @@ var GaodePoiApi = /** @class */ (function () {
      */
     GaodePoiApi.prototype.toUrl = function (parameters) {
         var currentKey = this.nextKey().key;
-        console.log("Current Key: " + currentKey);
         var url = this.baseurl + "?key=" + currentKey;
         for (var key in parameters) {
             if (parameters.hasOwnProperty(key)) {
                 switch (key) {
                     case "keywords":
-                        if (parameters.keywords.length > 0) {
+                        if (parameters.keywords && parameters.keywords.length > 0) {
                             url += "&" + key + "=";
-                            url += parameters.keywords[0];
-                            for (var index = 1; index < parameters.keywords.length; index++) {
-                                var element = parameters.keywords[index];
-                                url += "|" + querystring_1.escape(element);
-                            }
+                            url += parameters.keywords.map(function (value) { return querystring_1.escape(value); }).join("|");
                         }
                         break;
                     case "types":
-                        if (parameters.types.length > 0) {
+                        if (parameters.types && parameters.types.length > 0) {
                             url += "&" + key + "=";
-                            url += parameters.types[0];
-                            for (var index = 1; index < parameters.types.length; index++) {
-                                var element = parameters.types[index];
-                                url += "|" + querystring_1.escape(element);
-                            }
+                            url += parameters.types.map(function (value) { return querystring_1.escape(value); }).join("|");
                         }
                         break;
                     case "output":
@@ -135,13 +126,11 @@ function getGaodePoiData(ak, config, timeout) {
                     firstPage = new model_1.GaodePoiSearchResult(firstData);
                     poiList = poiList.concat(firstPage.pois);
                     totalCount = firstPage.count;
-                    console.log(config.types[0] + " data has found " + totalCount + " items, start downloading others...");
                     pages = Math.ceil(totalCount / config.offset);
                     i = 2;
                     _a.label = 2;
                 case 2:
                     if (!(i <= Math.min(pages, 100))) return [3 /*break*/, 6];
-                    console.log(config.types[0] + " Pages " + i);
                     config.page = i;
                     return [4 /*yield*/, WebRequest.json(api.toUrl(config))];
                 case 3:
@@ -151,7 +140,7 @@ function getGaodePoiData(ak, config, timeout) {
                         poiList = poiList.concat(data.pois);
                     }
                     else {
-                        console.log(result.info, result.infocode);
+                        console.error(result.info, result.infocode);
                     }
                     return [4 /*yield*/, delay_1.delay(timeout)];
                 case 4:
@@ -162,7 +151,7 @@ function getGaodePoiData(ak, config, timeout) {
                     return [3 /*break*/, 2];
                 case 6: return [3 /*break*/, 8];
                 case 7:
-                    console.log(firstData.info, firstData.infocode);
+                    console.error(firstData.info, firstData.infocode);
                     _a.label = 8;
                 case 8: return [2 /*return*/, poiList];
             }

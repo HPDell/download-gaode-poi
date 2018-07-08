@@ -55,23 +55,15 @@ export class GaodePoiApi {
             if (parameters.hasOwnProperty(key)) {
                 switch (key) {
                     case "keywords":
-                        if (parameters.keywords.length > 0) {
+                        if (parameters.keywords && parameters.keywords.length > 0) {
                             url += `&${key}=`;
-                            url += parameters.keywords[0]
-                            for (var index = 1; index < parameters.keywords.length; index++) {
-                                var element = parameters.keywords[index];
-                                url += `|${escape(element)}`;
-                            }
+                            url += parameters.keywords.map(value => escape(value)).join("|");
                         }
                         break;
                     case "types":
-                        if (parameters.types.length > 0) {
+                        if (parameters.types && parameters.types.length > 0) {
                             url += `&${key}=`;
-                            url += parameters.types[0]
-                            for (var index = 1; index < parameters.types.length; index++) {
-                                var element = parameters.types[index];
-                                url += `|${escape(element)}`
-                            }
+                            url += parameters.types.map(value => escape(value)).join("|");
                         }
                         break;
                     case "output":

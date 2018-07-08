@@ -16,7 +16,7 @@ export default async function downloadGaodePoi(config: GaodeApiKey[], targets: D
                 try {
                     var poiList = await getGaodePoiData(config, {
                         city: targetCity,
-                        types: [targetType.id],
+                        types: [targetType.id ? targetType.id : targetType.name],
                         offset: 20
                     }, 100);
                     saveToCsv(poiList, targetCity, targetType.name, outputroot)
