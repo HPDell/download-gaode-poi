@@ -63,5 +63,4 @@ typings/
 .vscode/
 results/
 typings/
-gaodeconfig.json
-targets.json
+test/main.ts
