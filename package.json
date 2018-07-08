@@ -1,0 +1,30 @@
+{
+  "name": "download-gaode-poi",
+  "version": "1.0.0",
+  "description": "AMap search api clawer.",
+  "main": "bin/index.js",
+  "bin": {
+    "download-gaode-poi": "delay.js"
+  },
+  "dependencies": {
+    "coordtransform": "^2.1.2",
+    "json2csv": "^3.11.5",
+    "web-request": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HPDell/download-gaode-poi.git"
+  },
+  "author": "Hu Yigong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HPDell/download-gaode-poi/issues"
+  },
+  "homepage": "https://github.com/HPDell/download-gaode-poi#readme"
+}
