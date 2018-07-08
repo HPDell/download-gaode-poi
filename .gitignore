@@ -58,10 +58,9 @@ typings/
 .env
 
 # Costum
-*.js
 *.js.map
+bin/test/
 .vscode/
 results/
 typings/
-gaodeconfig.json
-targets.json
+test/main.ts
