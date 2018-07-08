@@ -1,5 +1,5 @@
 {
-  "name": "download-gaode-poi",
+  "name": "amap-clawer",
   "version": "1.0.0",
   "description": "AMap search api clawer.",
   "main": "bin/index.js",
@@ -26,7 +26,7 @@
     "type": "git",
     "url": "git+https://github.com/HPDell/download-gaode-poi.git"
   },
-  "author": "Hu Yigong",
+  "author": "hpdell",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HPDell/download-gaode-poi/issues"
