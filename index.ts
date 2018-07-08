@@ -40,8 +40,7 @@ function saveToCsv(poiList: GaodePoi[], city: string, type: string, outputroot: 
         if (err) console.error(err);
         else {
             fs.writeFile(outputFile, poiCsv, function (err: NodeJS.ErrnoException) {
-                if (err) console.log(err)
-                else console.log(`${city}/${type} Saved!`)
+                if (err) console.error(err)
             })
         }
     })

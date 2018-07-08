@@ -4,12 +4,13 @@
   "description": "AMap search api clawer.",
   "main": "bin/index.js",
   "bin": {
-    "download-gaode-poi": "delay.js"
+    "download-gaode-poi": "./bin/cmd.js"
   },
   "dependencies": {
     "coordtransform": "^2.1.2",
     "fs-extra": "^6.0.1",
     "json2csv": "^3.11.5",
+    "minimist": "^1.2.0",
     "web-request": "^1.0.7"
   },
   "devDependencies": {

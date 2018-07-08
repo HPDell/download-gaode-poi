@@ -50,7 +50,6 @@ export class GaodePoiApi {
      */
     toUrl(parameters: GaodePoiApiInfo): string {
         let currentKey = this.nextKey().key;
-        console.log("Current Key: " + currentKey);
         let url = `${this.baseurl}?key=${currentKey}`;
         for (var key in parameters) {
             if (parameters.hasOwnProperty(key)) {
@@ -117,22 +116,20 @@ export async function getGaodePoiData(
         poiList = poiList.concat(firstPage.pois);
         // 计算应获取的数量
         let totalCount = firstPage.count; // 总数
-        console.log(`${config.types[0]} data has found ${totalCount} items, start downloading others...`);
         let pages = Math.ceil(totalCount / config.offset); // 总页数
         for (let i = 2; i <= Math.min(pages, 100); i++) {
-            console.log(`${config.types[0]} Pages ${i}`);
             config.page = i;
             let result = await WebRequest.json<IGaodePoiSearchResultModel>(api.toUrl(config));
             if (result.status === "1") {
                 let data = new GaodePoiSearchResult(result);
                 poiList = poiList.concat(data.pois);
             } else {
-                console.log(result.info, result.infocode);
+                console.error(result.info, result.infocode);
             }
             await delay(timeout)
         }
     } else {
-        console.log(firstData.info, firstData.infocode)
+        console.error(firstData.info, firstData.infocode)
     }
     return poiList;
 }

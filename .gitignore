@@ -58,8 +58,8 @@ typings/
 .env
 
 # Costum
-*.js
 *.js.map
+bin/test/
 .vscode/
 results/
 typings/
