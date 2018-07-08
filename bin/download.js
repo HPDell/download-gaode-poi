@@ -39,6 +39,7 @@ var WebRequest = require("web-request");
 var delay_1 = require("./delay");
 var model_1 = require("./model");
 var querystring_1 = require("querystring");
+var ProgressBar = require("progress");
 var GaodePoiOutput;
 (function (GaodePoiOutput) {
     GaodePoiOutput[GaodePoiOutput["JSON"] = 0] = "JSON";
@@ -113,7 +114,7 @@ exports.GaodePoiApi = GaodePoiApi;
  */
 function getGaodePoiData(ak, config, timeout) {
     return __awaiter(this, void 0, void 0, function () {
-        var poiList, api, firstData, firstPage, totalCount, pages, i, result, data;
+        var poiList, api, firstData, firstPage, totalCount, pages, bar, i, result, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -126,11 +127,20 @@ function getGaodePoiData(ak, config, timeout) {
                     firstPage = new model_1.GaodePoiSearchResult(firstData);
                     poiList = poiList.concat(firstPage.pois);
                     totalCount = firstPage.count;
-                    pages = Math.ceil(totalCount / config.offset);
+                    pages = Math.min(Math.ceil(totalCount / config.offset), 100) // 总页数
+                    ;
+                    bar = new ProgressBar(config.types.join(",") + " [:bar] :current/:total Pages", {
+                        total: pages,
+                        curr: 1,
+                        complete: "=",
+                        head: ">",
+                        incomplete: " ",
+                        clear: true
+                    });
                     i = 2;
                     _a.label = 2;
                 case 2:
-                    if (!(i <= Math.min(pages, 100))) return [3 /*break*/, 6];
+                    if (!(i <= pages)) return [3 /*break*/, 6];
                     config.page = i;
                     return [4 /*yield*/, WebRequest.json(api.toUrl(config))];
                 case 3:
@@ -142,6 +152,7 @@ function getGaodePoiData(ak, config, timeout) {
                     else {
                         console.error(result.info, result.infocode);
                     }
+                    bar.tick();
                     return [4 /*yield*/, delay_1.delay(timeout)];
                 case 4:
                     _a.sent();

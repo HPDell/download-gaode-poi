@@ -53,7 +53,7 @@ Where: target-config file need to be able to parsed as an Array of
     process.exit(0)
 }
 
-if (argv["target-config"] && argv["key-config"] && argv["ouput-dir"]) {
+if (argv["target-config"] && argv["key-config"] && argv["output-dir"]) {
     var targetConfig, keyConfig;
     const keyConfigFile = argv["key-config"].trim();
     const targetConfigFile = argv["target-config"].trim();

@@ -3,6 +3,7 @@ import { delay } from "./delay";
 import { GaodePoi, GaodePoiSearchResult, IGaodePoiSearchResultModel } from "./model";
 import { GaodeApiKey } from "./gaodeconfig";
 import { escape } from "querystring";
+import ProgressBar = require("progress");
 
 export enum GaodePoiOutput {
     JSON, XML
@@ -51,7 +52,7 @@ export class GaodePoiApi {
     toUrl(parameters: GaodePoiApiInfo): string {
         let currentKey = this.nextKey().key;
         let url = `${this.baseurl}?key=${currentKey}`;
-        for (var key in parameters) {
+        for (const key in parameters) {
             if (parameters.hasOwnProperty(key)) {
                 switch (key) {
                     case "keywords":
@@ -108,8 +109,16 @@ export async function getGaodePoiData(
         poiList = poiList.concat(firstPage.pois);
         // 计算应获取的数量
         let totalCount = firstPage.count; // 总数
-        let pages = Math.ceil(totalCount / config.offset); // 总页数
-        for (let i = 2; i <= Math.min(pages, 100); i++) {
+        let pages = Math.min(Math.ceil(totalCount / config.offset), 100) // 总页数
+        let bar = new ProgressBar(`${config.types.join(",")} [:bar] :current/:total Pages`, {
+            total: pages,
+            curr: 1,
+            complete: "=",
+            head: ">",
+            incomplete: " ",
+            clear: true
+        })
+        for (let i = 2; i <= pages; i++) {
             config.page = i;
             let result = await WebRequest.json<IGaodePoiSearchResultModel>(api.toUrl(config));
             if (result.status === "1") {
@@ -118,6 +127,7 @@ export async function getGaodePoiData(
             } else {
                 console.error(result.info, result.infocode);
             }
+            bar.tick();
             await delay(timeout)
         }
     } else {

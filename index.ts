@@ -5,16 +5,19 @@ import { getGaodePoiData } from "./download";
 import { DownloadGaodeTarget } from "./targets";
 import { GaodeApiKey } from "./gaodeconfig";
 
-export default async function downloadGaodePoi(config: GaodeApiKey[], targets: DownloadGaodeTarget[], outputroot: string) {
+export default async function downloadGaodePoi(
+    config: GaodeApiKey[],
+    targetList: DownloadGaodeTarget[],
+    outputroot: string
+) {
     // 读取ak
     if (config.length > 0) {
         // 爬取数据
-        for (const target of targets) {
-            var targetCity = target.city;
-            for (const targetType of target.types) {
-                // var poiList = await getGaodePoiData(config, targetCity, [], targetType.id, 20, 100);
+        for (const targetItem of targetList) {
+            let targetCity = targetItem.city;
+            for (const targetType of targetItem.types) {
                 try {
-                    var poiList = await getGaodePoiData(config, {
+                    let poiList = await getGaodePoiData(config, {
                         city: targetCity,
                         types: [targetType.id ? targetType.id : targetType.name],
                         offset: 20
@@ -31,16 +34,17 @@ export default async function downloadGaodePoi(config: GaodeApiKey[], targets: D
 }
 
 function saveToCsv(poiList: GaodePoi[], city: string, type: string, outputroot: string) {
-    var poiCsv = json2csv({
+    let poiCsv = json2csv({
         data: poiList,
         fields: GaodePoi.getFields()
     })
-    var outputFile = `${outputroot}/${city}/${type}.csv`;
+    let outputFile = `${outputroot}/${city}/${type}.csv`;
     fs.ensureFile(outputFile, (err) => {
         if (err) console.error(err);
         else {
             fs.writeFile(outputFile, poiCsv, function (err: NodeJS.ErrnoException) {
                 if (err) console.error(err)
+                else console.log(`Write to file ${outputFile}.`)
             })
         }
     })

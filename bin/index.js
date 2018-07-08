@@ -39,20 +39,20 @@ var fs = require("fs-extra");
 var json2csv = require("json2csv");
 var model_1 = require("./model");
 var download_1 = require("./download");
-function downloadGaodePoi(config, targets, outputroot) {
+function downloadGaodePoi(config, targetList, outputroot) {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, targets_1, target, targetCity, _a, _b, targetType, poiList, error_1;
+        var _i, targetList_1, targetItem, targetCity, _a, _b, targetType, poiList, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     if (!(config.length > 0)) return [3 /*break*/, 9];
-                    _i = 0, targets_1 = targets;
+                    _i = 0, targetList_1 = targetList;
                     _c.label = 1;
                 case 1:
-                    if (!(_i < targets_1.length)) return [3 /*break*/, 8];
-                    target = targets_1[_i];
-                    targetCity = target.city;
-                    _a = 0, _b = target.types;
+                    if (!(_i < targetList_1.length)) return [3 /*break*/, 8];
+                    targetItem = targetList_1[_i];
+                    targetCity = targetItem.city;
+                    _a = 0, _b = targetItem.types;
                     _c.label = 2;
                 case 2:
                     if (!(_a < _b.length)) return [3 /*break*/, 7];
@@ -100,6 +100,8 @@ function saveToCsv(poiList, city, type, outputroot) {
             fs.writeFile(outputFile, poiCsv, function (err) {
                 if (err)
                     console.error(err);
+                else
+                    console.log("Write to file " + outputFile + ".");
             });
         }
     });
