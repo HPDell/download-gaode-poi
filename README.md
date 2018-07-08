@@ -73,3 +73,86 @@ tsc
 ```bash
 node bin/test/main.ts
 ```
+
+## 命令行工具
+
+### 安装
+
+使用如下命令安装：
+
+```bash
+npm install -g download-gaode-poi
+```
+
+### 使用方法
+
+使用格式说明如下：
+
+```
+download-gaode-poi [options]
+
+Required options:
+
+-t, --target-config [string]    Set download targets.
+-k, --key-config [string]       Set amap keys.
+-o, --output-dir [string]       Set output root dir.
+```
+
+例如：
+
+```bash
+download-gaode-poi -t targets.json -k keys.json -o .
+```
+
+其中，`targets.json` 是 Target 配置文件，
+`keys.json` 是 Key 配置文件。
+
+#### Target 配置文件编写
+
+`target-config` 参数值即 Target 配置文件，该文件为 JSON 格式，
+是一个 `DownloadGaodeTarget` 接口的数组，`DownloadGaodeTarget` 定义为：
+
+```ts
+interface DownloadGaodeTarget {
+    city: string;
+    types: TargetType[]
+}
+
+interface TargetType {
+    name?: string;
+    id?: string;
+}
+```
+
+例如：
+
+```json
+[{
+    "city": "wuhan",
+    "types": [{
+        "name": "高等院校",
+        "id": "141201"
+    }]
+}]
+```
+
+#### Key 配置文件编写
+
+`key-config` 参数值即 Target 配置文件，该文件为 JSON 格式，
+是一个 `GaodeApiKey` 接口的数组，`GaodeApiKey` 定义为：
+
+```ts
+interface GaodeApiKey {
+    key: string;
+}
+```
+
+例如：
+
+```json
+[{
+    "key": "您的key1"
+},{
+    "key": "您的key2"
+}]
+```
