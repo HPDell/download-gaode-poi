@@ -42,7 +42,7 @@ export class GaodePoiApi {
      * 获取下一个 key
      */
     nextKey() {
-        return this.key[(++this.keyIndex) % this.key.length];
+        return this.key[(this.keyIndex++) % this.key.length];
     }
 
     /**
