@@ -1,4 +1,4 @@
-export interface DownloadGaodeTarget {
+export interface GaodePoiTarget {
     city: string;
     types: TargetType[]
 }

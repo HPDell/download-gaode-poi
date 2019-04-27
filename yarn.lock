@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@types/csv-parse@^1.1.12":
+  version "1.1.12"
+  resolved "https://registry.npm.taobao.org/@types/csv-parse/download/@types/csv-parse-1.1.12.tgz#b1ae62fc0334821f45595e62ca683da9a760915e"
+  integrity sha1-sa5i/AM0gh9FWV5iymg9qadgkV4=
+  dependencies:
+    "@types/node" "*"
+
 "@types/fs-extra@^5.0.4":
   version "5.0.5"
   resolved "https://registry.npm.taobao.org/@types/fs-extra/download/@types/fs-extra-5.0.5.tgz#080d90a792f3fa2c5559eb44bd8ef840aae9104b"
@@ -108,6 +115,11 @@ core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/core-util-is/download/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+
+csv-parse@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.npm.taobao.org/csv-parse/download/csv-parse-4.4.1.tgz#b40df60a3724fdf24ad2856586bf8f1dc7682e54"
+  integrity sha1-tA32Cjck/fJK0oVlhr+PHcdoLlQ=
 
 dashdash@^1.12.0:
   version "1.14.1"
