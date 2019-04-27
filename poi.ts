@@ -1,9 +1,12 @@
 import * as WebRequest from "web-request";
 import { delay } from "./delay";
-import { GaodePoi, GaodePoiSearchResult, IGaodePoiSearchResultModel } from "./model";
+import { GaodePoi, GaodePoiSearchResult, IGaodePoiSearchResult } from "./models/GaodePoi";
 import { GaodeApiKey } from "./gaodeconfig";
 import { escape } from "querystring";
 import ProgressBar = require("progress");
+import * as json2csv from "json2csv";
+import * as fs from "fs-extra";
+import { GaodePoiTarget } from "./targets/GaodePoiTarget";
 
 export enum GaodePoiOutput {
     JSON, XML
@@ -103,7 +106,7 @@ export async function getGaodePoiData(
     let poiList = new Array<GaodePoi>();
     // 获取第一页
     let api = new GaodePoiApi(ak);
-    let firstData = await WebRequest.json<IGaodePoiSearchResultModel>(api.toUrl(config));
+    let firstData = await WebRequest.json<IGaodePoiSearchResult>(api.toUrl(config));
     if (firstData.status === "1") {
         let firstPage = new GaodePoiSearchResult(firstData);
         poiList = poiList.concat(firstPage.pois);
@@ -120,7 +123,7 @@ export async function getGaodePoiData(
         })
         for (let i = 2; i <= pages; i++) {
             config.page = i;
-            let result = await WebRequest.json<IGaodePoiSearchResultModel>(api.toUrl(config));
+            let result = await WebRequest.json<IGaodePoiSearchResult>(api.toUrl(config));
             if (result.status === "1") {
                 let data = new GaodePoiSearchResult(result);
                 poiList = poiList.concat(data.pois);
@@ -134,4 +137,49 @@ export async function getGaodePoiData(
         console.error(firstData.info, firstData.infocode)
     }
     return poiList;
+}
+
+export default async function downloadGaodePoi(
+    config: GaodeApiKey[],
+    targetList: GaodePoiTarget[],
+    outputroot: string
+) {
+    // 读取ak
+    if (config.length > 0) {
+        // 爬取数据
+        for (const targetItem of targetList) {
+            let targetCity = targetItem.city;
+            for (const targetType of targetItem.types) {
+                try {
+                    let poiList = await getGaodePoiData(config, {
+                        city: targetCity,
+                        types: [targetType.id ? targetType.id : targetType.name],
+                        offset: 20
+                    }, 100);
+                    return poiList;
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    } else {
+        throw "No config file";
+    }
+}
+
+export function saveToCsv(poiList: GaodePoi[], city: string, type: string, outputroot: string) {
+    let poiCsv = json2csv({
+        data: poiList,
+        fields: GaodePoi.getFields()
+    })
+    let outputFile = `${outputroot}/${city}/${type}.csv`;
+    fs.ensureFile(outputFile, (err) => {
+        if (err) console.error(err);
+        else {
+            fs.writeFile(outputFile, poiCsv, function (err: NodeJS.ErrnoException) {
+                if (err) console.error(err)
+                else console.log(`Write to file ${outputFile}.`)
+            })
+        }
+    })
 }

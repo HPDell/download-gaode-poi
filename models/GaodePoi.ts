@@ -3,7 +3,7 @@ import * as coordtransform from "coordtransform"
 /**
  * 高德POI模型
  */
-export interface IGaodePoiModel {
+export interface IGaodePoi {
     id: string;
     name: string;
     typecode: string;
@@ -25,7 +25,7 @@ export interface IGaodePoiModel {
 /**
  * 高德POI搜索建议
  */
-export interface IGaodePoiSearchSuggestionsModel {
+export interface IGaodePoiSearchSuggestions {
     keywords: any[];
     cities: any[];
 }
@@ -33,13 +33,13 @@ export interface IGaodePoiSearchSuggestionsModel {
 /**
  * 高德POI搜索结果模型
  */
-export interface IGaodePoiSearchResultModel {
+export interface IGaodePoiSearchResult {
     status: string;
     info?: string;
     infocode?: string;
     count?: string;
-    pois?: IGaodePoiModel[];
-    suggestion?: IGaodePoiSearchSuggestionsModel[];
+    pois?: IGaodePoi[];
+    suggestion?: IGaodePoiSearchSuggestions[];
 }
 
 export class GaodePoi {
@@ -62,7 +62,7 @@ export class GaodePoi {
     shopid: any[];
     shopinfo: string | number;
     poiweight: any[];
-    constructor(parameters: IGaodePoiModel) {
+    constructor(parameters: IGaodePoi) {
         // 复制属性
         this.id = parameters.id;
         this.name = parameters.name;
@@ -88,7 +88,11 @@ export class GaodePoi {
         this.wgslat = wgs[1];
     }
     static getFields(): string[] {
-        return [ "id", "name", "typecode", "biz_type", "address", "gjclng", "gjclat", "wgslng", "wgslat", "tel", "distance", "biz_ext", "pname", "cityname", "adname", "importance", "shopid", "shopinfo", "poiweight" ]
+        return [ "id", "name", "typecode", "biz_type", "address",
+            "gjclng", "gjclat", "wgslng", "wgslat", "tel", "distance", 
+            "biz_ext", "pname", "cityname", "adname", "importance", 
+            "shopid", "shopinfo", "poiweight"
+        ]
     }
 }
 
@@ -98,8 +102,8 @@ export class GaodePoiSearchResult {
     infocode: number;
     count: number;
     pois: GaodePoi[];
-    suggestion?: IGaodePoiSearchSuggestionsModel[];
-    constructor(parameters: IGaodePoiSearchResultModel) {
+    suggestion?: IGaodePoiSearchSuggestions[];
+    constructor(parameters: IGaodePoiSearchResult) {
         this.status = parseInt(parameters.status);
         this.info = parameters.info;
         this.infocode = parseInt(parameters.infocode);

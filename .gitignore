@@ -64,3 +64,6 @@ bin/test/
 results/
 typings/
 test/main.ts
+keys.json
+targets.json
+test/data/

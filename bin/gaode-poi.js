@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const minimist = require("minimist");
-const downloadGaodePoi = require("./index").default;
+const gaodePoi = require("./poi").default;
+const gaodePoi = require("./poi").saveToCsv;
 const fs = require("fs-extra");
 
 const argv = minimist(process.argv.slice(2), {
@@ -82,7 +83,9 @@ if (argv["target-config"] && argv["key-config"] && argv["output-dir"]) {
     }
     if (keyConfig && targetConfig) {
         try {
-            downloadGaodePoi(keyConfig, targetConfig, outputDir) 
+            gaodePoi(keyConfig, targetConfig, outputDir).then(function (poiList) {
+                saveToCsv(poiList, targetCity, targetType.name, outputroot)
+            }) 
         } catch (error) {
             console.error("Download error \n" + error);
         }
