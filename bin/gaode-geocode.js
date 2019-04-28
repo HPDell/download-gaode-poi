@@ -3,6 +3,7 @@ const minimist = require("minimist");
 const gaodeGeocode = require("./geocode").default;
 const saveToCsv = require("./geocode").saveToCsv;
 const fs = require("fs-extra");
+const path = require("path");
 const CSV = {
     parse: require("csv-parse/lib/sync")
 };
@@ -96,7 +97,7 @@ if (argv["key-config"] && argv["output-dir"]) {
         if (keyConfig && targetConfig) {
             try {
                 gaodeGeocode(keyConfig, targetConfig).then(function (result) {
-                    saveToCsv(result, fieldOid, fieldAddress, targetCsvFile.split(".")[0] + "-geocode", outputDir)
+                    saveToCsv(result, fieldOid, fieldAddress, path.basename(targetCsvFile, path.extname(targetCsvFile)) + "-geocode", outputDir)
                 });
             } catch (error) {
                 console.error("Download error \n" + error);
