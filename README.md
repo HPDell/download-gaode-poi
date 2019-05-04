@@ -127,7 +127,7 @@ Required options:
 例如：
 
 ```bash
-gaode-poi -k keys.json  -o . -c geocode.csv -a "PLACE" -i "OID"
+gaode-geocode -k keys.json  -o . -c geocode.csv -a "PLACE" -i "OID"
 ```
 
 其中：
@@ -138,50 +138,4 @@ gaode-poi -k keys.json  -o . -c geocode.csv -a "PLACE" -i "OID"
 
 ## 与代码集成
 
-### 调用
-
-在 test 文件夹中，建立一个 main.ts 文件，在里面编写如下代码：
-
-```ts
-import downloadGaodePoi from "../index";
-import { GaodeApiKey } from "../gaodeconfig";
-import { DownloadGaodeTarget } from "../targets";
-
-// 该 key 的数量可以根据申请到的 key 的数量进行调整
-const keys: GaodeApiKey[] = [{
-    key: "您的key"
-},{
-    key: "您的key"
-}];
-
-// 这里填写所有需要爬取的城市和类型
-// 城市和分类编码表参考请参考
-// https://lbs.amap.com/api/webservice/download
-const targets: DownloadGaodeTarget[] = [{
-    city: "wuhan",
-    types: [{
-        name: "高等院校",
-        id: "141201"
-    }]
-}]
-
-// 第三个参数是输出路径，可以根据需要进行调整
-downloadGaodePoi(keys, targets, "./results")
-```
-
-### 编译
-
-编写完成后，使用如下指令进行编译：
-
-```bash
-npm install
-tsc
-```
-
-### 运行
-
-键入以下命令来启动爬虫：
-
-```bash
-node bin/test/main.ts
-```
+> 该仓库暂时只作为命令行工具使用。与代码集成没有经过测试。
