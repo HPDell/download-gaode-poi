@@ -97,10 +97,10 @@ export class GaodePoiApi {
  * 爬取高德POI数据
  * @param params 参数
  */
-export async function getGaodePoiData(
+export default async function getGaodePoiData(
     ak: GaodeApiKey | GaodeApiKey[],
     config: GaodePoiApiInfo,
-    timeout: 100
+    timeout: number
 ): Promise<Array<GaodePoi>> {
     // POI列表
     let poiList = new Array<GaodePoi>();
@@ -139,10 +139,11 @@ export async function getGaodePoiData(
     return poiList;
 }
 
-export default async function downloadGaodePoi(
+export async function downloadGaodePoi(
     config: GaodeApiKey[],
     targetList: GaodePoiTarget[],
-    outputroot: string
+    outputDir: string,
+    timeout: number
 ) {
     // 读取ak
     if (config.length > 0) {
@@ -155,10 +156,10 @@ export default async function downloadGaodePoi(
                         city: targetCity,
                         types: [targetType.id ? targetType.id : targetType.name],
                         offset: 20
-                    }, 100);
-                    return poiList;
+                    }, timeout);
+                    saveToCsv(poiList, targetCity, targetType.name, outputDir)
                 } catch (error) {
-                    console.error(error);
+                    throw error;
                 }
             }
         }
@@ -167,17 +168,17 @@ export default async function downloadGaodePoi(
     }
 }
 
-export function saveToCsv(poiList: GaodePoi[], city: string, type: string, outputroot: string) {
+export function saveToCsv(poiList: GaodePoi[], city: string, type: string, outputDir: string) {
     let poiCsv = json2csv({
         data: poiList,
         fields: GaodePoi.getFields()
     })
-    let outputFile = `${outputroot}/${city}/${type}.csv`;
+    let outputFile = `${outputDir}/${city}/${type}.csv`;
     fs.ensureFile(outputFile, (err) => {
-        if (err) console.error(err);
+        if (err) throw err;
         else {
             fs.writeFile(outputFile, poiCsv, function (err: NodeJS.ErrnoException) {
-                if (err) console.error(err)
+                if (err) throw err;
                 else console.log(`Write to file ${outputFile}.`)
             })
         }

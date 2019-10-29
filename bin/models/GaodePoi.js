@@ -21,9 +21,9 @@ var GaodePoi = /** @class */ (function () {
         this.poiweight = parameters.poiweight;
         // 计算坐标
         var coords = parameters.location.split(",");
-        this.gjclng = parseFloat(coords[0]);
-        this.gjclat = parseFloat(coords[1]);
-        var wgs = coordtransform.gcj02towgs84(this.gjclng, this.gjclat);
+        this.gcjlng = parseFloat(coords[0]);
+        this.gcjlat = parseFloat(coords[1]);
+        var wgs = coordtransform.gcj02towgs84(this.gcjlng, this.gcjlat);
         this.wgslng = wgs[0];
         this.wgslat = wgs[1];
     }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const minimist = require("minimist");
-const gaodePoi = require("./poi").default;
+const gaodePoi = require("./poi").downloadGaodePoi;
 const saveToCsv = require("./poi").saveToCsv;
 const fs = require("fs-extra");
 
@@ -9,6 +9,7 @@ const argv = minimist(process.argv.slice(2), {
         "target-config",
         "key-config",
         "output-dir",
+        "delay"
     ],
     boolean: [
         "help"
@@ -82,9 +83,10 @@ if (argv["target-config"] && argv["key-config"] && argv["output-dir"]) {
         process.exit(1);
     }
     if (keyConfig && targetConfig) {
+        var timeout = argv["delay"] ? (parseFloat(argv["delay"]) ? parseFloat(argv["delay"]) : 1000) : 1000;
         try {
-            gaodePoi(keyConfig, targetConfig, outputDir).then(function (poiList) {
-                saveToCsv(poiList, targetCity, targetType.name, outputroot)
+            gaodePoi(keyConfig, targetConfig, outputDir, timeout).catch(function (error) {
+                throw error;
             }) 
         } catch (error) {
             console.error("Download error \n" + error);
