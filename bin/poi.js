@@ -171,8 +171,8 @@ function getGaodePoiData(ak, config, timeout) {
         });
     });
 }
-exports.getGaodePoiData = getGaodePoiData;
-function downloadGaodePoi(config, targetList, outputroot) {
+exports.default = getGaodePoiData;
+function downloadGaodePoi(config, targetList, outputDir, timeout) {
     return __awaiter(this, void 0, void 0, function () {
         var _i, targetList_1, targetItem, targetCity, _a, _b, targetType, poiList, error_1;
         return __generator(this, function (_c) {
@@ -197,14 +197,14 @@ function downloadGaodePoi(config, targetList, outputroot) {
                             city: targetCity,
                             types: [targetType.id ? targetType.id : targetType.name],
                             offset: 20
-                        }, 100)];
+                        }, timeout)];
                 case 4:
                     poiList = _c.sent();
-                    return [2 /*return*/, poiList];
+                    saveToCsv(poiList, targetCity, targetType.name, outputDir);
+                    return [3 /*break*/, 6];
                 case 5:
                     error_1 = _c.sent();
-                    console.error(error_1);
-                    return [3 /*break*/, 6];
+                    throw error_1;
                 case 6:
                     _a++;
                     return [3 /*break*/, 2];
@@ -218,20 +218,20 @@ function downloadGaodePoi(config, targetList, outputroot) {
         });
     });
 }
-exports.default = downloadGaodePoi;
-function saveToCsv(poiList, city, type, outputroot) {
+exports.downloadGaodePoi = downloadGaodePoi;
+function saveToCsv(poiList, city, type, outputDir) {
     var poiCsv = json2csv({
         data: poiList,
         fields: GaodePoi_1.GaodePoi.getFields()
     });
-    var outputFile = outputroot + "/" + city + "/" + type + ".csv";
+    var outputFile = outputDir + "/" + city + "/" + type + ".csv";
     fs.ensureFile(outputFile, function (err) {
         if (err)
-            console.error(err);
+            throw err;
         else {
             fs.writeFile(outputFile, poiCsv, function (err) {
                 if (err)
-                    console.error(err);
+                    throw err;
                 else
                     console.log("Write to file " + outputFile + ".");
             });
