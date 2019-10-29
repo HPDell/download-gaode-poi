@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const minimist = require("minimist");
 const gaodePoi = require("./poi").default;
-const gaodePoi = require("./poi").saveToCsv;
+const saveToCsv = require("./poi").saveToCsv;
 const fs = require("fs-extra");
 
 const argv = minimist(process.argv.slice(2), {
