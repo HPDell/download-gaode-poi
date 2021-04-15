@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GaodePoiSearchResult = exports.GaodePoi = void 0;
 var coordtransform = require("coordtransform");
 var GaodePoi = /** @class */ (function () {
     function GaodePoi(parameters) {

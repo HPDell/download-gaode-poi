@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GaodeGeocodeResult = exports.GaodeGeocode = void 0;
 var coordtransform = require("coordtransform");
 var GaodeGeocode = /** @class */ (function () {
     function GaodeGeocode(parameters, id, address) {
