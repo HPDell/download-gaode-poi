@@ -1,6 +1,6 @@
 {
   "name": "amap-clawer",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "AMap search api clawer.",
   "main": "bin/index.js",
   "bin": {
